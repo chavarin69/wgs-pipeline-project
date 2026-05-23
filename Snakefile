@@ -27,3 +27,12 @@ rule sam_to_bam:
         "results/mapped_reads.bam"
     shell:
         "samtools view -Sb {input} > {output}"
+
+rule call_variants:
+    input:
+        ref="data/reference.fasta",
+        bam="results/mapped_reads.bam"
+    output:
+        "results/variants.vcf"
+    shell:
+        "bcftools mpileup -Ou -f {input.ref} {input.bam} | bcftools call -mv -Ob -o {output}"
