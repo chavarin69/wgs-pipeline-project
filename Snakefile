@@ -27,3 +27,15 @@ rule sam_to_bam:
         "results/mapped_reads.bam"
     shell:
         "samtools view -Sb {input} > {output}"
+
+rule download_reference:
+    output:
+        "data/reference.fasta"
+    shell:
+        "mkdir -p data && wget -O {output} https://raw.githubusercontent.com/eriqande/mega-non-model-wgs-snakeflow/master/.test/resources/genome.fasta"
+
+rule download_reads:
+    output:
+        "data/reads.fastq.gz"
+    shell:
+        "mkdir -p data && wget -O {output} https://raw.githubusercontent.com/eriqande/mega-non-model-wgs-snakeflow/master/.test/data/pe_reads/s001---1_R1.fq.gz"
