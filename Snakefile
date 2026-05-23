@@ -39,3 +39,13 @@ rule download_reads:
         "data/reads.fastq.gz"
     shell:
         "mkdir -p data && wget -O {output} https://raw.githubusercontent.com/eriqande/mega-non-model-wgs-snakeflow/master/.test/data/pe_reads/s001---1_R1.fq.gz"
+
+rule call_variants:
+    input:
+        ref="data/reference.fasta",
+        bam="results/mapped_reads.bam"
+    output:
+        "results/variants.vcf"
+    shell:
+        "bcftools mpileup -Ou -f {input.ref} {input.bam} | bcftools call -mv -Ob -o {output}"
+
